@@ -65,8 +65,7 @@ def makeYqlQuery(req):
     flightNumber = paramters.get("flightNumber")
 #    if city is None:
 #        return None
-
-	return {
+    return {
 	"{
 	'"carrierCode"' : '"FZ"',
 	'"flightNumber"': '"+flightNumber+"',
@@ -74,7 +73,7 @@ def makeYqlQuery(req):
     	'"origin"': '"DXB"',
     	'"destination"':'"DOH"'
    	}"
-	}
+   }
 
 
 def makeWebhookResult(data):
