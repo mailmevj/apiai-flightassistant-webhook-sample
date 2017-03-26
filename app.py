@@ -66,13 +66,7 @@ def makeYqlQuery(req):
 #    if city is None:
 #        return None
     return {
-	"{
-	'"carrierCode"' : '"FZ"',
-	'"flightNumber"': '"+flightNumber+"',
-    	'"flightDate"': '"20-10-2017"',
-    	'"origin"': '"DXB"',
-    	'"destination"':'"DOH"'
-   	}"
+	"{ 'carrierCode' : 'FZ', 'flightNumber': '"+flightNumber+"', 'flightDate': '20-10-2017', 'origin': 'DXB', 'destination':'DOH' }"
    }
 
 
