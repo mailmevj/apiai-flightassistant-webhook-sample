@@ -49,11 +49,17 @@ def processRequest(req):
 #        return{}
     
     yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode(yql_query)
-    print("URL data: \n "+yql_url)
-    result = urlopen(yql_url).read()
+    print(yql_query)
+#    if yql_query is None:
+#        return {}
+#    yql_url = baseurl + urlencode(yql_query)
+#    print("URL data: \n "+yql_url)
+
+    data = urllib.parse.urlencode(yql_query)
+    data = data.encode('ascii') # data should be bytes
+    req = urllib.request.Request(baseurl, data)
+
+    result = urlopen(req).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
     return res
