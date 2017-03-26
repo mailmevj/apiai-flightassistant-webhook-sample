@@ -36,17 +36,17 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") == "searchFlights":
-	    baseurl = "https://devapi.flydubai.com/res/v3/flights/1"
+#    if req.get("result").get("action") == "searchFlights":
+#	    baseurl = "https://devapi.flydubai.com/res/v3/flights/1"
 
-    if req.get("result").get("action") == "optionalExtras":
-	    baseurl = "https://devapi.flydubai.com/res/v3/optional/extras"
+#    if req.get("result").get("action") == "optionalExtras":
+#	    baseurl = "https://devapi.flydubai.com/res/v3/optional/extras"
     
     if req.get("result").get("action") == "flightdetails":
     	baseurl = "https://devapi.flydubai.com/ops/v3/flightinfo"
 
-    else:
-        return{}
+#    else:
+#        return{}
     
     yql_query = makeYqlQuery(req)
     if yql_query is None:
