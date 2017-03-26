@@ -107,7 +107,7 @@ def makeWebhookResult(data):
 
     # print(json.dumps(item, indent=4))
 	
-	speech = "The flight is in "+data.get('status')+" status, and you can see it at Gate number "+data.get('gateNumber')+" of the "+data.get('terminal')+" Terminal."
+     speech = "The flight is in "+data.get('status')+" status, and you can see it at Gate number "+data.get('gateNumber')+" of the "+data.get('terminal')+" Terminal."
 #    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
 #             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
