@@ -62,7 +62,7 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
-	flightNumber = paramters.get("flightNumber")
+    flightNumber = paramters.get("flightNumber")
 #    if city is None:
 #        return None
 
