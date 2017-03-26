@@ -36,13 +36,22 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
-        return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+#    if req.get("result").get("action") == "searchFlights":
+#    baseurl = "https://devapi.flydubai.com/res/v3/flights/1"
+
+#    if req.get("result").get("action") == "optionalExtras":
+#    baseurl = "https://devapi.flydubai.com/res/v3/optional/extras"
+    
+    if req.get("result").get("action") == "flightdetails":
+    baseurl = "https://devapi.flydubai.com/ops/v3/flightinfo"
+
+#    else:
+#        return{}
+    
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    yql_url = baseurl + urlencode(yql_query)
     result = urlopen(yql_url).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
@@ -53,39 +62,59 @@ def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
     city = parameters.get("geo-city")
-    if city is None:
-        return None
+	flightNumber = paramters.get("flightNumber")
+#    if city is None:
+#        return None
 
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+    return "{
+     '"carrierCode"' : '"FZ"',
+     '"flightNumber"': '"+flightNumber+"',
+     '"flightDate"': '"20-10-2017"',
+     '"origin"': '"DXB"',
+     '"destination"':'"DOH"'
+    }"
 
 
 def makeWebhookResult(data):
-    query = data.get('query')
-    if query is None:
-        return {}
+#    {
+#      "carrierCode": "FZ",
+#      "flightNumber": "24",
+#      "flightDate": "20-10-2017",
+#      "origin": "DXB",
+#      "destination": "DOH",
+#      "status": "FO",
+#      "gateNumber": 228,
+#      "terminal": "T2"
+#    }
+    print(data)
 
-    result = query.get('results')
-    if result is None:
-        return {}
+#    query = data.get('query')
+#    if query is None:
+#        return {}
 
-    channel = result.get('channel')
-    if channel is None:
-        return {}
+#    result = query.get('results')
+#    if result is None:
+#        return {}
 
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
+#    channel = result.get('channel')
+#    if channel is None:
+#        return {}
 
-    condition = item.get('condition')
-    if condition is None:
-        return {}
+#    item = channel.get('item')
+#    location = channel.get('location')
+#    units = channel.get('units')
+#    if (location is None) or (item is None) or (units is None):
+#        return {}
+
+#    condition = item.get('condition')
+#    if condition is None:
+#        return {}
 
     # print(json.dumps(item, indent=4))
-
-    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+	
+	speech = "The flight is in "+data.get('status')+" status, and you can see it at Gate number "+data.get('gateNumber')+" of the "+data.get('terminal')+" Terminal."
+#    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
+#             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
     print("Response:")
     print(speech)
